@@ -1,5 +1,8 @@
 package com.travelkeeper.repository;
 
+import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
+import org.springframework.data.repository.NoRepositoryBean;
+
 import java.io.Serializable;
 
 /**
@@ -10,5 +13,6 @@ import java.io.Serializable;
  *
  * Created by netocris on 24/08/2018
  */
-public interface IBaseRepository<T, ID extends Serializable> {
+@NoRepositoryBean
+public interface IBaseRepository<T, ID extends Serializable> extends ElasticsearchRepository<T, ID> {
 }
