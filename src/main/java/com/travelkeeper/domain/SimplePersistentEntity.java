@@ -8,7 +8,9 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import java.io.Serializable;
 
 /**
- * Created by netoc on 27/04/2017.
+ * Simple persistent entity
+ *
+ * Created by netocris on 24/08/2018
  */
 //@MappedSuperclass
 public class SimplePersistentEntity implements Serializable {
