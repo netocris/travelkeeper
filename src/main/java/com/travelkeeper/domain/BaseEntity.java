@@ -1,9 +1,13 @@
 package com.travelkeeper.domain;
 
+import lombok.Data;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Version;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
@@ -11,49 +15,14 @@ import java.io.Serializable;
  *
  * Created by netocris on 24/08/2018
  */
+@Data
 public class BaseEntity implements Serializable {
 
+    @Id
+    @NotNull
     private Long id;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-
-        if (this == o){
-            return true;
-        }
-
-        if (o == null || getClass() != o.getClass()){
-            return false;
-        }
-
-        final BaseEntity entity = (BaseEntity) o;
-
-        return new EqualsBuilder()
-                .append(this.id, entity.id)
-                .isEquals();
-
-    }
-
-    @Override
-    public int hashCode() {
-        return new HashCodeBuilder(17, 37)
-                .append(this.id)
-                .toHashCode();
-    }
-
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this)
-                .append(this.id)
-                .toString();
-    }
+    @Version
+    private Long version;
 
 }

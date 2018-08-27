@@ -1,4 +1,4 @@
-package com.travelkeeper.controller;
+package com.travelkeeper.errors;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -9,21 +9,21 @@ import org.springframework.web.bind.annotation.ResponseStatus;
  * Created by netocris on 24/08/2018
  */
 @ResponseStatus(HttpStatus.BAD_REQUEST)
-public class BadRequestException extends RuntimeException {
+public class ApplicationException extends RuntimeException {
 
-    public BadRequestException() {
+    public ApplicationException() {
         super();
     }
 
-    public BadRequestException(String message) {
+    public ApplicationException(String message) {
         super(message);
     }
 
-    public BadRequestException(String message, Throwable cause) {
+    public ApplicationException(String message, Throwable cause) {
         super(message, cause);
     }
 
-    public BadRequestException(Throwable cause) {
+    public ApplicationException(Throwable cause) {
         super(cause);
     }
 

@@ -18,6 +18,8 @@ import java.io.Serializable;
  */
 public abstract class BaseService implements Serializable {
 
+    private static final String BASE_INDEX = "spring.data.elasticsearch.index";
+    private static final String BASE_TYPE = "spring.data.elasticsearch.type";
     private static final String PAGE_SIZE = "pagination.pagesize";
 
     private final Environment env;
@@ -26,12 +28,20 @@ public abstract class BaseService implements Serializable {
         this.env = env;
     }
 
+    protected abstract String getIndex();
+    protected abstract String getType();
+
     protected Environment getEnv() {
         return this.env;
     }
 
-    protected abstract String getIndex();
-    protected abstract String getType();
+    protected String getBaseIndex() {
+        return BASE_INDEX;
+    }
+
+    protected String getBaseType() {
+        return BASE_TYPE;
+    }
 
     protected NativeSearchQuery createSearchQuery() {
         return new NativeSearchQueryBuilder()

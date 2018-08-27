@@ -1,8 +1,12 @@
 # elasticsearch
-elasticsearch:
-  clustername: travelkeeper-cluster
-  host: localhost
-  port: 9300
+spring:
+  data:
+    elasticsearch:
+      cluster-nodes: localhost:9200
+      index:
+        location: locations
+      type:
+        location: location
 
 # pagination
 pagination:
