@@ -2,9 +2,10 @@
 spring:
   data:
     elasticsearch:
-      cluster-nodes: localhost:9200
-      index:
-        location: locations
+      cluster-name: travelkeeper-cluster-dev
+      cluster-nodes: localhost:9300
+      sort-by: id
+      index: travelkeeper
       type:
         location: location
 

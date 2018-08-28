@@ -4,6 +4,9 @@ import com.travelkeeper.domain.Location;
 import com.travelkeeper.errors.ApplicationException;
 import com.travelkeeper.repository.ILocationRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.math.NumberUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.data.domain.Page;
@@ -23,7 +26,7 @@ import static java.util.Collections.emptyList;
 @Slf4j
 public class LocationService extends BaseService implements ILocationService {
 
-    private static final String KEY = "location";
+    private static final String TYPE = "location";
 
     private ILocationRepository repository;
 
@@ -34,15 +37,9 @@ public class LocationService extends BaseService implements ILocationService {
     }
 
     @Override
-    protected String getIndex() {
-        log.debug("get [Location] index");
-        return getEnv().getProperty(getBaseIndex() + "." + KEY);
-    }
-
-    @Override
     protected String getType() {
         log.debug("get [Location] type");
-        return getEnv().getProperty(getBaseType() + "." + KEY);
+        return getEnv().getProperty(getBaseTypeResourceKey()+ "." + TYPE);
     }
 
     @Override
@@ -50,7 +47,8 @@ public class LocationService extends BaseService implements ILocationService {
 
         log.debug("get all locations");
 
-        final Page<Location> page = this.repository.search(createSearchQuery());
+        final Page<Location> page = this.repository.search(
+                buildSearchQuery(0, getPageSize(), getSortBy()));
 
         if(page.hasContent()){
             return page;
@@ -65,10 +63,11 @@ public class LocationService extends BaseService implements ILocationService {
 
         log.debug("get all location ids");
 
-        final Page<Location> page = this.repository.search(createSearchQuery());
+        final Page<Location> page = this.repository.search(
+                buildSearchQuery(0, getPageSize(), getSortBy()));
 
         if(page.hasContent()){
-            return page
+            return page/**/
                     .getContent()
                     .stream()
                     .map(Location::getId)
@@ -103,4 +102,5 @@ public class LocationService extends BaseService implements ILocationService {
         throw new ApplicationException("Location with id " + id + " does not exists");
 
     }
+
 }
