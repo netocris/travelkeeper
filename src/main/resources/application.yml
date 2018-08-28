@@ -3,5 +3,6 @@ spring:
     active: dev
 
 server:
+  servlet:
+    context-path: /travelkeeper
   port: 8090
-  contextPath: /travelkeeper
