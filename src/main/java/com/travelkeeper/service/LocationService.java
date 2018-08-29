@@ -4,9 +4,6 @@ import com.travelkeeper.domain.Location;
 import com.travelkeeper.errors.ApplicationException;
 import com.travelkeeper.repository.ILocationRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.math.NumberUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.data.domain.Page;
@@ -39,7 +36,7 @@ public class LocationService extends BaseService implements ILocationService {
     @Override
     protected String getType() {
         log.debug("get [Location] type");
-        return getEnv().getProperty(getBaseTypeResourceKey()+ "." + TYPE);
+        return TYPE;
     }
 
     @Override
@@ -81,7 +78,7 @@ public class LocationService extends BaseService implements ILocationService {
     @Override
     public Location getById(Long id) {
         log.debug("get location with id " + id);
-        return this.repository.findById(id).get();
+        return this.repository.findById(id).orElse(null);
     }
 
     @Override
