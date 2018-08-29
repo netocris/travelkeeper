@@ -21,7 +21,6 @@ Run bin/elasticsearch to start elasticsearch
 ### Build and run
 
 You need to have an instance of ElasticSearch 5.5 running before you can run the app.
-Open the application-dev.yml and set the cluster-name
 
 Go to the project root folder and type:
 
