@@ -2,12 +2,7 @@ package com.travelkeeper.service;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.math.NumberUtils;
-import org.elasticsearch.index.query.QueryBuilders;
-import org.elasticsearch.search.sort.SortBuilders;
-import org.elasticsearch.search.sort.SortOrder;
 import org.springframework.core.env.Environment;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQuery;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 
@@ -15,7 +10,7 @@ import java.io.Serializable;
 
 import static org.elasticsearch.index.query.QueryBuilders.matchAllQuery;
 import static org.springframework.data.domain.PageRequest.of;
-import static org.springframework.data.domain.Sort.Order.*;
+import static org.springframework.data.domain.Sort.Order.asc;
 import static org.springframework.data.domain.Sort.by;
 
 /**
@@ -24,7 +19,7 @@ import static org.springframework.data.domain.Sort.by;
  * Created by netocris on 24/08/2018
  */
 @Slf4j
-public abstract class BaseService implements Serializable {
+abstract class BaseService implements Serializable {
 
     private static final String SORT_BY_RESOURCE_KEY = "spring.data.elasticsearch.sort-by";
     private static final String INDEX_RESOURCE_KEY = "spring.data.elasticsearch.index";
@@ -33,74 +28,60 @@ public abstract class BaseService implements Serializable {
 
     private final Environment env;
 
-    public BaseService(final Environment env) {
+    BaseService(final Environment env) {
         this.env = env;
     }
 
     /**
      *
-     * @return
+     * @return type
      */
-    protected abstract String getType();
-
-    /**
-     *
-     * @return
-     */
-    protected Environment getEnv() {
-        return this.env;
-    }
-
-    /**
-     * Base type resource key
-     *
-     * @return
-     */
-    protected String getBaseTypeResourceKey() {
-        return BASE_TYPE_RESOURCE_KEY;
-    }
+    abstract String getType();
 
     /**
      * Default sort by
      *
-     * @return
+     * @return sort by
      */
-    protected String getSortBy() {
+    String getSortBy() {
         return this.env.getProperty(SORT_BY_RESOURCE_KEY);
     }
 
     /**
      * Page size
-     * @return
+     * @return page size
      */
-    protected int getPageSize() {
+    int getPageSize() {
         return NumberUtils.toInt(this.env.getProperty(PAGE_SIZE_RESOURCE_KEY));
     }
 
     /**
      * Build a search query that match all records
      *
-     * @param page
-     * @param pagesize
-     * @param sortBy
+     * @param page page
+     * @param pagesize page size
+     * @param sortBy sort by
      *
-     * @return
+     * @return search query
      */
-    protected NativeSearchQuery buildSearchQuery(final int page, final int pagesize, final String sortBy) {
+    NativeSearchQuery buildSearchQuery(final int page, final int pagesize, final String sortBy) {
         return new NativeSearchQueryBuilder()
                 .withQuery(matchAllQuery())
-                .withIndices(getIndex())
-                .withTypes(getType())
+                .withIndices(getProperty(INDEX_RESOURCE_KEY))
+                .withTypes(getProperty(BASE_TYPE_RESOURCE_KEY + "." + getType()))
                 .withPageable(of(page, pagesize, by(asc(sortBy))))
                 .build();
     }
 
     /**
+     * Get env property identified by key
      *
-     * @return
+     * @param key key value
+     *
+     * @return property
      */
-    private String getIndex(){
-        return this.env.getProperty(INDEX_RESOURCE_KEY);
+    private String getProperty(final String key){
+        return this.env.getProperty(key);
     }
 
 }
