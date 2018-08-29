@@ -6,9 +6,9 @@ You can easily access your entire location history where you've been.
 
 ### Prerequisites
 
-    * JDK 1.8
-    * Maven > 3
-    * ElasticSearch 5.5
+    JDK 1.8
+    Maven > 3
+    ElasticSearch 5.5
 
 ### Configuration
 
