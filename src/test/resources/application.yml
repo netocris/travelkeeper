@@ -1,0 +1,12 @@
+spring:
+  main:
+    banner-mode: "off"  # hide banner when running tests
+  data:
+    elasticsearch:
+      cluster-name: travelkeeper-cluster-dev
+      cluster-nodes: 10.0.2.2:9300
+
+# TODO ver uma forma de desactivar o elasticsearch, se for possivel, e de correr os testes sem carregar o contexto da applicação
+#   ex: elastic_enable=false
+#   or Just create second application.properties file in src/test/resources with spring.data.elasticsearch.cluster-nodes disabled.
+#     Spring Boot will use this file instead PROD configuration from src/main/resources.
