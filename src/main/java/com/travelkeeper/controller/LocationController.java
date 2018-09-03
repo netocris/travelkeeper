@@ -2,13 +2,10 @@ package com.travelkeeper.controller;
 
 import com.travelkeeper.domain.Location;
 import com.travelkeeper.service.ILocationService;
-import com.travelkeeper.service.LocationService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -51,6 +48,23 @@ public class LocationController {
         }
     }
 
+    @GetMapping(value = "/{id}")
+    @ApiOperation(value = "get module with id", httpMethod = "GET")
+    @ApiResponses(value = {@ApiResponse(code = 400, message = "Bad request")})
+    public ResponseEntity<Location> getById(@PathVariable("id") final Long id){
+        try {
+            log.info("getting location with id " + id);
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body(this.service.getById(id));
+        } catch (Exception ex){
+            log.error("Error getting location with id " + id , ex);
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .build();
+        }
+    }
+
     @PostMapping
     @ApiOperation(value = "Create location", httpMethod = "POST")
     @ApiResponses(value = {@ApiResponse(code = 400, message = "Bad request")})
@@ -63,6 +77,24 @@ public class LocationController {
                     .body(entity);
         } catch (Exception ex){
             log.error("Error creating location", ex);
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .build();
+        }
+    }
+
+    @DeleteMapping(value = "/{id}")
+    @ApiOperation(value = "Delete module with id", httpMethod = "DELETE")
+    @ApiResponses(value = {@ApiResponse(code = 400, message = "Bad request")})
+    public ResponseEntity<Void> remove(@PathVariable("id") final Long id){
+        try {
+            log.info("deleting location with id " + id);
+            this.service.delete(id);
+            return ResponseEntity
+                    .status(HttpStatus.GONE)
+                    .build();
+        } catch (Exception ex){
+            log.error("Error deleting location " + id , ex);
             return ResponseEntity
                     .status(HttpStatus.BAD_REQUEST)
                     .build();
