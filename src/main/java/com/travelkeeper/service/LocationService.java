@@ -28,7 +28,7 @@ public class LocationService extends BaseService implements ILocationService {
     private ILocationRepository repository;
 
     @Autowired
-    public LocationService(final Environment env, final ILocationRepository repository) {
+    LocationService(final Environment env, final ILocationRepository repository) {
         super(env);
         this.repository = repository;
     }
@@ -92,11 +92,11 @@ public class LocationService extends BaseService implements ILocationService {
 
         log.debug("deleting location with id " + id);
 
-        if(this.repository.existsById(id)){
-            this.repository.deleteById(id);
+        if(!this.repository.existsById(id)){
+            throw new ApplicationException("Location with id " + id + " does not exists");
         }
 
-        throw new ApplicationException("Location with id " + id + " does not exists");
+        this.repository.deleteById(id);
 
     }
 
