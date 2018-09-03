@@ -75,7 +75,7 @@ public class LocationServiceTest {
     }
 
     @Test
-    public void getAllNoContents() {
+    public void getAllEmpty() {
 
         final LocationService spy = (LocationService) spy(this.service);
         doReturn(10).when(spy).getPageSize();
@@ -130,7 +130,7 @@ public class LocationServiceTest {
     }
 
     @Test
-    public void getAllIdsNoContents() {
+    public void getAllIdsEmpty() {
 
         final LocationService spy = (LocationService) spy(this.service);
         doReturn(10).when(spy).getPageSize();
