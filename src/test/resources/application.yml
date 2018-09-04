@@ -1,10 +1,31 @@
 spring:
   main:
     banner-mode: "off"  # hide banner when running tests
+  # elasticsearch
   data:
     elasticsearch:
       cluster-name: travelkeeper-cluster-dev
       cluster-nodes: 10.0.2.2:9300
+      sort-by: id
+      index: travelkeeper
+      type:
+        location: location
+
+# pagination
+pagination:
+  pagesize: 10
+
+# log
+logging:
+  level:
+    ROOT: WARN
+    org.springframework.core.io.support.PathMatchingResourcePatternResolver: WARN
+    org.springframework.core.env.StandardEnvironment: WARN
+    org.springframework.test.annotation.ProfileValueUtils: WARN
+    org.springframework.test.context.support.TestPropertySourceUtils: WARN
+    org.springframework: WARN
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} %-5level %logger{36} - %msg%n"
 
 # TODO ver uma forma de desactivar o elasticsearch, se for possivel, e de correr os testes sem carregar o contexto da applicação
 #   ex: elastic_enable=false
