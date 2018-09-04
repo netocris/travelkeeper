@@ -4,7 +4,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.service.ApiInfo;
-import springfox.documentation.service.Contact;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
@@ -41,7 +40,7 @@ public class SwaggerConfig {
                 .title("Travel Keeper")
                 .description("Keep your travel experience saved and ready to use")
                 .termsOfServiceUrl("")
-                .contact(new Contact("Cristóvão Neto", "", "netocris@gmail.com"))
+                .contact("")
                 .license("")
                 .licenseUrl("")
                 .version("v0")
