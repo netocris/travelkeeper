@@ -42,7 +42,7 @@ public class LocationController {
                     .body(this.service.getAll());
         } catch (Exception ex){
             log.error("Error getting all modules", ex);
-            throw new BadRequestException();
+            throw new InternalServerErrorException(ex);
         }
     }
 
@@ -57,7 +57,7 @@ public class LocationController {
                     .body(this.service.getById(id));
         } catch (Exception ex){
             log.error("Error getting location with id " + id , ex);
-            throw new BadRequestException();
+            throw new InternalServerErrorException(ex);
         }
     }
 
@@ -73,7 +73,7 @@ public class LocationController {
                     .body(entity);
         } catch (Exception ex){
             log.error("Error creating location", ex);
-            throw new BadRequestException();
+            throw new InternalServerErrorException(ex);
         }
     }
 
@@ -89,7 +89,7 @@ public class LocationController {
                     .build();
         } catch (Exception ex){
             log.error("Error deleting location " + id , ex);
-            throw new BadRequestException();
+            throw new InternalServerErrorException(ex);
         }
     }
 
