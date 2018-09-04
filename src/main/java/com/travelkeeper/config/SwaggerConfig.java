@@ -38,7 +38,7 @@ public class SwaggerConfig {
     private ApiInfo buildApiInfo(){
         return new ApiInfoBuilder()
                 .title("Travel Keeper")
-                .description("Keep your travel experience saved and ready to use")
+                .description("API Documentation")
                 .termsOfServiceUrl("")
                 .contact("")
                 .license("")

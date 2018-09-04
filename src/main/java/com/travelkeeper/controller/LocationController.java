@@ -2,6 +2,7 @@ package com.travelkeeper.controller;
 
 import com.travelkeeper.domain.Location;
 import com.travelkeeper.service.ILocationService;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -22,6 +23,7 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping(value = "locations")
 @Slf4j
+@Api(value = "Location", description = "REST API for Location", tags = { "Location" })
 public class LocationController {
 
     private ILocationService service;
@@ -32,8 +34,8 @@ public class LocationController {
     }
 
     @GetMapping
-    @ApiOperation(value = "Return a list of locations", httpMethod = "GET")
-    @ApiResponses(value = {@ApiResponse(code = 400, message = "Bad request")})
+    @ApiOperation(value = "Get paginated list of locations", httpMethod = "GET", tags = { "Location" })
+    @ApiResponses(value = {@ApiResponse(code = 500, message = "Internal Server Error")})
     public ResponseEntity<Page<Location>> getAll(){
         try {
             log.debug("getting all locations");
@@ -41,14 +43,14 @@ public class LocationController {
                     .status(HttpStatus.OK)
                     .body(this.service.getAll());
         } catch (Exception ex){
-            log.error("Error getting all modules", ex);
+            log.error("Error getting all locations", ex);
             throw new InternalServerErrorException(ex);
         }
     }
 
     @GetMapping(value = "/{id}")
-    @ApiOperation(value = "get module with id", httpMethod = "GET")
-    @ApiResponses(value = {@ApiResponse(code = 400, message = "Bad request")})
+    @ApiOperation(value = "get location", httpMethod = "GET", tags = { "Location" })
+    @ApiResponses(value = {@ApiResponse(code = 500, message = "Internal Server Error")})
     public ResponseEntity<Location> getById(@PathVariable("id") final Long id){
         try {
             log.info("getting location with id " + id);
@@ -62,8 +64,8 @@ public class LocationController {
     }
 
     @PostMapping
-    @ApiOperation(value = "Create location", httpMethod = "POST")
-    @ApiResponses(value = {@ApiResponse(code = 400, message = "Bad request")})
+    @ApiOperation(value = "Create location", httpMethod = "POST", tags = { "Location" })
+    @ApiResponses(value = {@ApiResponse(code = 500, message = "Internal Server Error")})
     public ResponseEntity<Location> create(@Valid @RequestBody final Location entity){
         try {
             log.info("creating location");
@@ -78,8 +80,8 @@ public class LocationController {
     }
 
     @DeleteMapping(value = "/{id}")
-    @ApiOperation(value = "Delete module with id", httpMethod = "DELETE")
-    @ApiResponses(value = {@ApiResponse(code = 400, message = "Bad request")})
+    @ApiOperation(value = "Delete location", httpMethod = "DELETE", tags = { "Location" })
+    @ApiResponses(value = {@ApiResponse(code = 500, message = "Internal Server Error")})
     public ResponseEntity<Void> remove(@PathVariable("id") final Long id){
         try {
             log.info("deleting location with id " + id);
