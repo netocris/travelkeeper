@@ -1,7 +1,6 @@
 package com.travelkeeper.service;
 
 import com.travelkeeper.domain.Location;
-import com.travelkeeper.errors.ApplicationException;
 import com.travelkeeper.repository.ILocationRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,7 +22,7 @@ import javax.validation.Valid;
  * Created by netocris on 27/08/2018
  */
 @RestController
-@RequestMapping(value = "locations")
+@RequestMapping(value = "locations", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 @Slf4j
 @Api(value = "Location", description = "REST API for Location", tags = { "Location" })
 public class LocationController {

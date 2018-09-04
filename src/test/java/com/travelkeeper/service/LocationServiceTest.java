@@ -1,7 +1,6 @@
 package com.travelkeeper.service;
 
 import com.travelkeeper.domain.Location;
-import com.travelkeeper.errors.ApplicationException;
 import com.travelkeeper.repository.ILocationRepository;
 import org.junit.After;
 import org.junit.Before;
