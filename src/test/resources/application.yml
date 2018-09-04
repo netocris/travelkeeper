@@ -18,11 +18,7 @@ pagination:
 # log
 logging:
   level:
-    ROOT: WARN
-    org.springframework.core.io.support.PathMatchingResourcePatternResolver: WARN
-    org.springframework.core.env.StandardEnvironment: WARN
-    org.springframework.test.annotation.ProfileValueUtils: WARN
-    org.springframework.test.context.support.TestPropertySourceUtils: WARN
+    root: WARN
     org.springframework: WARN
   pattern:
     console: "%d{yyyy-MM-dd HH:mm:ss} %-5level %logger{36} - %msg%n"
