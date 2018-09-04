@@ -123,7 +123,12 @@ public class RestaurantServiceTest {
     @Test(expected = ApplicationException.class)
     public void deleteError() {
 
+        when(this.repository.existsById(anyLong())).thenReturn(false);
 
+        this.service.delete(1L);
+
+        verify(this.repository, times(1)).existsById(anyLong());
+        verifyNoMoreInteractions(this.repository);
 
     }
 }
