@@ -44,7 +44,7 @@ public class SwaggerConfig {
                 .contact(new Contact("Cristóvão Neto", "", "netocris@gmail.com"))
                 .license("")
                 .licenseUrl("")
-                .version("")
+                .version("v0")
                 .build();
     }
 

@@ -42,9 +42,7 @@ public class LocationController {
                     .body(this.service.getAll());
         } catch (Exception ex){
             log.error("Error getting all modules", ex);
-            return ResponseEntity
-                    .status(HttpStatus.BAD_REQUEST)
-                    .build();
+            throw new BadRequestException();
         }
     }
 
@@ -59,9 +57,7 @@ public class LocationController {
                     .body(this.service.getById(id));
         } catch (Exception ex){
             log.error("Error getting location with id " + id , ex);
-            return ResponseEntity
-                    .status(HttpStatus.BAD_REQUEST)
-                    .build();
+            throw new BadRequestException();
         }
     }
 
@@ -77,9 +73,7 @@ public class LocationController {
                     .body(entity);
         } catch (Exception ex){
             log.error("Error creating location", ex);
-            return ResponseEntity
-                    .status(HttpStatus.BAD_REQUEST)
-                    .build();
+            throw new BadRequestException();
         }
     }
 
@@ -95,9 +89,7 @@ public class LocationController {
                     .build();
         } catch (Exception ex){
             log.error("Error deleting location " + id , ex);
-            return ResponseEntity
-                    .status(HttpStatus.BAD_REQUEST)
-                    .build();
+            throw new BadRequestException();
         }
     }
 
