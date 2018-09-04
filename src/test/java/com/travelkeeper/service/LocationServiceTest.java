@@ -62,7 +62,7 @@ public class LocationServiceTest {
         when(this.repository.search((SearchQuery) any())).
                 thenReturn(page);
 
-        final Page<Location> result = spy.getAll();
+        final Page result = spy.getAll();
         assertNotNull(result);
         assertTrue(result.hasContent());
         assertEquals(result.getNumberOfElements(), 1);
@@ -82,13 +82,13 @@ public class LocationServiceTest {
         doReturn(mock(NativeSearchQuery.class))
                 .when(spy).buildSearchQuery(anyInt(), anyInt(), anyString());
 
-        final Page<Location> page = mock(Page.class);
+        final Page page = mock(Page.class);
         when(page.hasContent()).thenReturn(false);
 
         when(this.repository.search((SearchQuery) any())).
                 thenReturn(page);
 
-        final Page<Location> result = spy.getAll();
+        final Page result = spy.getAll();
         assertNotNull(result);
         assertFalse(result.hasContent());
 

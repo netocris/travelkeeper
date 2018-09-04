@@ -19,6 +19,7 @@ pagination:
 logging:
   level:
     root: WARN
+    org.springframework.test: WARN
     org.springframework: WARN
   pattern:
     console: "%d{yyyy-MM-dd HH:mm:ss} %-5level %logger{36} - %msg%n"
