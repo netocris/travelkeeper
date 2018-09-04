@@ -1,7 +1,7 @@
 package com.travelkeeper.service;
 
-import com.travelkeeper.domain.Dish;
-import com.travelkeeper.repository.IDishRepository;
+import com.travelkeeper.domain.Restaurant;
+import com.travelkeeper.repository.IRestaurantRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -14,20 +14,20 @@ import java.util.stream.Collectors;
 import static java.util.Collections.emptyList;
 
 /**
- * Dish service implementation
+ * Restaurant service implementation
  *
  * Created by netocris on 04/09/2018
  */
 @Service
 @Slf4j
-public class DishService extends BaseService implements IDishService {
+public class RestaurantService extends BaseService implements IRestaurantService {
 
     private static final String TYPE = "dish";
 
-    private IDishRepository repository;
+    private IRestaurantRepository repository;
 
     @Autowired
-    DishService(final Environment env, final IDishRepository repository) {
+    RestaurantService(final Environment env, final IRestaurantRepository repository) {
         super(env);
         this.repository = repository;
     }
@@ -39,11 +39,11 @@ public class DishService extends BaseService implements IDishService {
     }
 
     @Override
-    public Page<Dish> getAll() {
+    public Page<Restaurant> getAll() {
 
         log.debug("get all dishes");
 
-        final Page<Dish> page = this.repository.search(
+        final Page<Restaurant> page = this.repository.search(
                 buildSearchQuery(0, getPageSize(), getSortBy()));
 
         if(page.hasContent()){
@@ -59,14 +59,14 @@ public class DishService extends BaseService implements IDishService {
 
         log.debug("get all dish ids");
 
-        final Page<Dish> page = this.repository.search(
+        final Page<Restaurant> page = this.repository.search(
                 buildSearchQuery(0, getPageSize(), getSortBy()));
 
         if(page.hasContent()){
             return page/**/
                     .getContent()
                     .stream()
-                    .map(Dish::getId)
+                    .map(Restaurant::getId)
                     .collect(Collectors.toList());
         }
 
@@ -75,13 +75,13 @@ public class DishService extends BaseService implements IDishService {
     }
 
     @Override
-    public Dish getById(Long id) {
+    public Restaurant getById(Long id) {
         log.debug("get dish with id " + id);
         return this.repository.findById(id).orElse(null);
     }
 
     @Override
-    public void save(Dish entity) {
+    public void save(Restaurant entity) {
         log.debug("save dish");
         this.repository.save(entity);
     }

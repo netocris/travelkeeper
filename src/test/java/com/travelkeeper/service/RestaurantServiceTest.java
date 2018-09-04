@@ -1,7 +1,7 @@
 package com.travelkeeper.service;
 
-import com.travelkeeper.domain.Dish;
-import com.travelkeeper.repository.IDishRepository;
+import com.travelkeeper.domain.Restaurant;
+import com.travelkeeper.repository.IRestaurantRepository;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -18,19 +18,19 @@ import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 @RunWith(SpringRunner.class)
-public class DishServiceTest {
+public class RestaurantServiceTest {
 
-    private IDishService service;
+    private IRestaurantService service;
 
     @Mock
     private Environment env;
 
     @Mock
-    private IDishRepository repository;
+    private IRestaurantRepository repository;
 
     @Before
     public void setUp() {
-        this.service = new DishService(env, repository);
+        this.service = new RestaurantService(env, repository);
     }
 
     @After
@@ -40,7 +40,7 @@ public class DishServiceTest {
     @Test
     public void getAll() {
 
-        final DishService spy = (DishService) spy(this.service);
+        final RestaurantService spy = (RestaurantService) spy(this.service);
         doReturn(10).when(spy).getPageSize();
         doReturn("id").when(spy).getSortBy();
         doReturn(mock(NativeSearchQuery.class))
@@ -50,7 +50,7 @@ public class DishServiceTest {
         when(page.hasContent()).thenReturn(true);
         when(page.getNumberOfElements()).thenReturn(1);
         when(page.getContent()).thenReturn(
-                singletonList(mock(Dish.class)));
+                singletonList(mock(Restaurant.class)));
 
         when(this.repository.search((SearchQuery) any())).
                 thenReturn(page);
@@ -69,7 +69,7 @@ public class DishServiceTest {
     @Test
     public void getAllEmpty() {
 
-        final DishService spy = (DishService) spy(this.service);
+        final RestaurantService spy = (RestaurantService) spy(this.service);
         doReturn(10).when(spy).getPageSize();
         doReturn("id").when(spy).getSortBy();
         doReturn(mock(NativeSearchQuery.class))
