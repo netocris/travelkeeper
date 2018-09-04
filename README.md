@@ -24,7 +24,10 @@ You need to have an instance of ElasticSearch 5.5 running before you can run the
 
 Go to the project root folder and type:
 
-    $ mvn clean compile install
+    $ mvn install                       # build
+    $ mvn install -DskipTests           # build and skip all tests
+    $ mvn integration-test              # build and execute alltests
+    $ mvn test                          # build and execute unit tests 
     
 ### Run
 
