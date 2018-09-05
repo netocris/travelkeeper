@@ -2,9 +2,8 @@
 spring:
   data:
     elasticsearch:
-      cluster-name: travelkeeper-cluster-dev
-      cluster-nodes: 10.0.2.2:9300
-      #cluster-nodes: localhost:9300
+      cluster-name: travelkeeper-cluster
+      cluster-nodes: localhost:9300
       sort-by: id
       index: travelkeeper
       type:
@@ -18,7 +17,7 @@ pagination:
 logging:
   level:
     root: INFO
-    com.travelkeeper: DEBUG
+    com.travelkeeper: INFO
     org.springframework: INFO
   pattern:
     console: "%d{yyyy-MM-dd HH:mm:ss} %-5level %logger{36} - %msg%n"
