@@ -10,6 +10,14 @@ spring:
       type:
         location: location
 
+# google drive api
+google:
+  application-name: travelkeeper
+  service-account-email: travelkeeper@travelkeeper-216714.iam.gserviceaccount.com
+  folder-id: 1YjI3lVAPzhbGlKjaJjKbC2lBoVrMp-s-
+  service-account-key: credentials.p12
+  #service-account-private-key: notasecret
+
 # pagination
 pagination:
   pagesize: 10
