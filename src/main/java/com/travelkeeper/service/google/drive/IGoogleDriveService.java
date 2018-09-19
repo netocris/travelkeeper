@@ -12,25 +12,25 @@ import java.io.Serializable;
  */
 public interface IGoogleDriveService extends Serializable {
 
-//    /**
-//     *  Download a file from Google Drive
-//     *
-//     * @param File file name
-//     *
-//     * @return the file
-//     */
-//    File download(final String File);
+    /**
+     *  Download a file from Google Drive
+     *
+     * @param file file to download
+     *
+     * @return the file
+     */
+    byte[] download(final String file);
 
     /**
      *  Upload a file into Google Drive cloud
      *
      * @param path path to file
-     * @param name file name
+     * @param file file to upload
      * @param mimeType file mimeType
      *
      * @return a file
      *
      */
-    File upload(final String path, final String name, final String mimeType);
+    File upload(final String path, final String file, final String mimeType);
 
 }
