@@ -6,7 +6,7 @@ import com.google.api.client.extensions.jetty.auth.oauth2.LocalServerReceiver;
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
 import com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets;
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
-import com.google.api.client.http.FileContent;
+import com.google.api.client.http.ByteArrayContent;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
@@ -15,8 +15,7 @@ import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.DriveScopes;
 import com.google.api.services.drive.model.File;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.core.env.Environment;
+import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
 
 import java.io.*;
@@ -29,32 +28,27 @@ import java.util.List;
  *
  * Created by netocris on 24/08/2018
  */
+@Service
 @Slf4j
 class GoogleDriveService implements IGoogleDriveService {
 
     private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
 
-    private final Environment env;
-
-    GoogleDriveService(final Environment env) {
-        this.env = env;
-    }
-
     @Override
-    public byte[] download(String file) {
+    public byte[] download(String filename) {
 
         try {
+
             final Drive driveService = getDriveService();
-            if(driveService != null){
-                OutputStream outputStream = new ByteArrayOutputStream();
-                driveService.files()
-                        .get(file)
-                        .executeAndDownloadTo(outputStream);
-                return ((ByteArrayOutputStream) outputStream).toByteArray();
-            }
-        } catch (IOException ex) {
-            log.error("Error", ex);
-        } catch (GeneralSecurityException ex) {
+
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            driveService.files()
+                    .get(filename)
+                    .executeAndDownloadTo(outputStream);
+
+            return outputStream.toByteArray();
+
+        } catch (IOException | GeneralSecurityException ex) {
             log.error("Error", ex);
         }
 
@@ -62,32 +56,22 @@ class GoogleDriveService implements IGoogleDriveService {
     }
 
     @Override
-    public File upload(String path, String name, String mimeType) {
+    public File upload(String path, String mimeType, String filename, byte[] content) {
 
         try {
+
             final Drive driveService = getDriveService();
-            if(driveService != null){
 
-                final String folderId = this.env.getProperty("google.folder");
-                if(StringUtils.isEmpty(folderId)){
-                    throw new IllegalArgumentException("Google Drive service folder id is missing!");
-                }
+            final File metadata = new File();
+            metadata.setName(filename);
+            metadata.setParents(Collections.singletonList(path));
 
-                final java.io.File fileUpload = new java.io.File(path);
-                final File metadata = new File();
-                metadata.setName(name);
-                metadata.setParents(Collections.singletonList(folderId));
+            return driveService.files()
+                    .create(metadata, new ByteArrayContent(mimeType, content))
+                    .setFields("id,webContentLink,webViewLink")
+                    .execute();
 
-                final FileContent fileContent = new FileContent(mimeType, fileUpload);
-
-                return driveService.files()
-                        .create(metadata, fileContent)
-                        .setFields("id,webContentLink,webViewLink")
-                        .execute();
-            }
-        } catch (IOException ex) {
-            log.error("Error", ex);
-        } catch (GeneralSecurityException ex) {
+        } catch (IOException | GeneralSecurityException ex) {
             log.error("Error", ex);
         }
 
@@ -95,6 +79,14 @@ class GoogleDriveService implements IGoogleDriveService {
 
     }
 
+    /**
+     * Create Drive instance
+     *
+     * @return Drive
+     *
+     * @throws IOException some IOException
+     * @throws GeneralSecurityException some GeneralSecurityException
+     */
     private Drive getDriveService() throws IOException, GeneralSecurityException {
 
         // Build a new authorized API client service.
@@ -111,18 +103,18 @@ class GoogleDriveService implements IGoogleDriveService {
     }
 
     /**
+     * Create credentials
      *
-     * @param httpTransport
+     * @param httpTransport http transport
      *
-     * @return
+     * @return Credentials
      *
-     * @throws IOException
-     * @throws GeneralSecurityException
+     * @throws IOException IOException some IOException
      */
     private static Credential getCredentials(final NetHttpTransport httpTransport) throws IOException {
 
-        final java.io.File credentials = ResourceUtils.getFile(ResourceUtils.CLASSPATH_URL_PREFIX + "credentials.json");
-        final String clientSecret = "client_secret.json";
+        final java.io.File credentials = ResourceUtils.getFile(ResourceUtils.CLASSPATH_URL_PREFIX);
+        final String clientSecret = "credentials/client_secret.json";
         final java.io.File clientSecretFilePath = new java.io.File(credentials, clientSecret);
         if(!clientSecretFilePath.exists()){
             throw new FileNotFoundException("Please copy " + clientSecret

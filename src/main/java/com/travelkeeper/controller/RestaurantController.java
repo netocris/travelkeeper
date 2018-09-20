@@ -2,12 +2,14 @@ package com.travelkeeper.controller;
 
 import com.travelkeeper.domain.Restaurant;
 import com.travelkeeper.service.IRestaurantService;
+import com.travelkeeper.service.google.drive.IGoogleDriveService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -15,6 +17,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.io.File;
+import java.nio.file.Files;
 
 /**
  * Restaurant controller
@@ -28,10 +32,15 @@ import javax.validation.Valid;
 public class RestaurantController {
 
     private IRestaurantService service;
+    private IGoogleDriveService googleDriveService;
+    private final Environment env;
 
     @Autowired
-    public RestaurantController(final IRestaurantService service) {
+    public RestaurantController(final IRestaurantService service, IGoogleDriveService googleDriveService,
+                                final Environment env) {
         this.service = service;
+        this.googleDriveService = googleDriveService;
+        this.env = env;
     }
 
     @GetMapping
@@ -40,6 +49,17 @@ public class RestaurantController {
     public ResponseEntity<Page<Restaurant>> getAll(){
         try {
             log.debug("getting all restaurants");
+
+            final String folder = this.env.getProperty("google.folder");
+            log.info("Google folder: " + folder);
+            final File uploadFile = new File("/home/cristovao/text.txt");
+            final com.google.api.services.drive.model.File file = this.googleDriveService.upload(
+                    folder, "text/plain", "test.txt", Files.readAllBytes(uploadFile.toPath()));
+
+            log.info("Created Google file!");
+            log.info("WebContentLink: " + file.getWebContentLink() );
+            log.info("WebViewLink: " + file.getWebViewLink() );
+
             return ResponseEntity
                     .status(HttpStatus.OK)
                     .body(this.service.getAll());

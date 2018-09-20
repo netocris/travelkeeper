@@ -15,22 +15,23 @@ public interface IGoogleDriveService extends Serializable {
     /**
      *  Download a file from Google Drive
      *
-     * @param file file to download
+     * @param filename file to download
      *
      * @return the file
      */
-    byte[] download(final String file);
+    byte[] download(final String filename);
 
     /**
      *  Upload a file into Google Drive cloud
      *
      * @param path path to file
-     * @param file file to upload
      * @param mimeType file mimeType
+     * @param filename file to upload
+     * @param content file content
      *
      * @return a file
      *
      */
-    File upload(final String path, final String file, final String mimeType);
+    File upload(final String path, final String mimeType, final String filename, final byte[] content);
 
 }
