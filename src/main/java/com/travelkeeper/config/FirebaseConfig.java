@@ -10,22 +10,18 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
+import org.springframework.util.ResourceUtils;
 
 import javax.annotation.PostConstruct;
 import java.io.FileInputStream;
 import java.io.IOException;
 
 /**
- * Swagger configuration
+ * Firebase configuration
  *
- *  To test, run http://<host>:<port>/<context-root>/v2/api-docs
- *  To test swagger ui, run http://<host>:<port>/<context-root/swagger-ui.html
- *
- * Created by netocris on 29/08/2018
+ * Created by netocris on 21/09/2018
  */
 @Configuration
-@EnableSwagger2
 @Slf4j
 public class FirebaseConfig {
 
@@ -40,7 +36,9 @@ public class FirebaseConfig {
 
         try {
 
-            final FileInputStream in = new FileInputStream("classpath:" + getProperty("firebase.credentials-path"));
+            final FileInputStream in = new FileInputStream(
+                    ResourceUtils.getFile(ResourceUtils.CLASSPATH_URL_PREFIX)
+                            + getProperty("firebase.credentials-path"));
             final FirebaseOptions options = new FirebaseOptions.Builder()
                     .setCredentials(GoogleCredentials.fromStream(in))
                     .setDatabaseUrl(getProperty("firebase.database.url"))
@@ -69,7 +67,7 @@ public class FirebaseConfig {
 
         final String value = this.env.getProperty(key);
         if(StringUtils.isEmpty(value)){
-            throw new IllegalArgumentException("firebase key " + key + "  value is missing!");
+            throw new IllegalArgumentException("Resource key " + key + " value is missing!");
         }
 
         return value;
