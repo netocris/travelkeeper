@@ -10,6 +10,12 @@ spring:
       type:
         location: location
 
+# firebase
+firebase:
+  credentials-path: credentials/firebase_secret.json
+  database:
+    url: https://travelkeeper-b2bb8.firebaseio.com
+
 # pagination
 pagination:
   pagesize: 10

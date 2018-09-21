@@ -19,6 +19,7 @@
 	</parent>
 
 	<properties>
+		<firebase.admin.version>6.2.0</firebase.admin.version>
 		<commons-lang3.version>3.8</commons-lang3.version>
 		<swagger.version>2.9.2</swagger.version>
 		<maven.failsafe.plugin.version>2.22.0</maven.failsafe.plugin.version>
@@ -75,6 +76,12 @@
 			<artifactId>lombok</artifactId>
 			<scope>provided</scope>
 			<optional>true</optional>
+		</dependency>
+
+		<dependency>
+			<groupId>com.google.firebase</groupId>
+			<artifactId>firebase-admin</artifactId>
+			<version>${firebase.admin.version}</version>
 		</dependency>
 
 		<!-- tests -->
