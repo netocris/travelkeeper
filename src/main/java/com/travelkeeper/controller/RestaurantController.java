@@ -8,6 +8,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.data.domain.Page;
@@ -51,6 +52,9 @@ public class RestaurantController {
             log.debug("getting all restaurants");
 
             final String folder = this.env.getProperty("google.folder");
+            if(StringUtils.isEmpty(folder)){
+                log.error("Resource key " + "google.folder" + " value is missing!");
+            }
             log.info("Google folder: " + folder);
             final File uploadFile = new File("/home/cristovao/text.txt");
             final com.google.api.services.drive.model.File file = this.googleDriveService.upload(

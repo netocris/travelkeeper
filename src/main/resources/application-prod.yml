@@ -9,6 +9,11 @@ spring:
       type:
         location: location
 
+# google drive api
+google:
+  credentials-path: credentials/google_drive_secret.json
+  folder: 1YjI3lVAPzhbGlKjaJjKbC2lBoVrMp-s-
+
 # pagination
 pagination:
   pagesize: 10
