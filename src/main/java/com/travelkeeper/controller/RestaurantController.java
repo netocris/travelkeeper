@@ -50,7 +50,7 @@ public class RestaurantController {
     }
 
     @GetMapping(value = "/{id}")
-    @ApiOperation(value = "get restaurant", httpMethod = "GET", tags = { "Restaurant" })
+    @ApiOperation(value = "Get restaurant", httpMethod = "GET", tags = { "Restaurant" })
     @ApiResponses(value = {@ApiResponse(code = 500, message = "Internal Server Error")})
     public ResponseEntity<Restaurant> getById(@PathVariable("id") final Long id){
         try {

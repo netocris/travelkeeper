@@ -4,6 +4,7 @@ import lombok.Data;
 import org.springframework.data.elasticsearch.annotations.Document;
 
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 /**
  * Restaurant entity
@@ -17,8 +18,11 @@ public class Restaurant extends BaseEntity {
     @NotNull
     private String name;
 
-    @NotNull
     private Address address;
+
+    private Contact contact;
+
+    private List<Photo> photos;
 
 }
 

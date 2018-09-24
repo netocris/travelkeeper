@@ -1,8 +1,8 @@
 package com.travelkeeper.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.travelkeeper.domain.Location;
-import com.travelkeeper.service.ILocationService;
+import com.travelkeeper.domain.Restaurant;
+import com.travelkeeper.service.IRestaurantService;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -22,7 +22,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-public class LocationControllerIT {
+public class RestaurantControllerIT {
 
     private static final long ID = 0L;
 
@@ -30,7 +30,7 @@ public class LocationControllerIT {
     private MockMvc mvc;
 
     @Autowired
-    private ILocationService service;
+    private IRestaurantService service;
 
     @Before
     public void setUp() {
@@ -43,73 +43,74 @@ public class LocationControllerIT {
     @Test
     public void getAll() throws Exception {
 
-        createLocationTest();
+        final Restaurant entity = createMock();
+        this.service.save(entity);
 
-        this.mvc.perform(get("/locations")
+        this.mvc.perform(get("/restaurants")
                 .accept(APPLICATION_JSON)
                 .contentType(APPLICATION_JSON_UTF8))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(APPLICATION_JSON_UTF8))
                 .andExpect(jsonPath("$.numberOfElements", greaterThanOrEqualTo(1)));
 
-        removeLocationTest();
+        this.service.delete(ID);
 
     }
 
     @Test
     public void getById() throws Exception {
 
-        createLocationTest();
+        final Restaurant entity = createMock();
+        this.service.save(entity);
 
-        this.mvc.perform(get("/locations/{id}", ID)
+        this.mvc.perform(get("/restaurants/{id}", ID)
                 .accept(APPLICATION_JSON)
                 .contentType(APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(APPLICATION_JSON_UTF8));
 
-        removeLocationTest();
+        this.service.delete(ID);
 
     }
 
     @Test
     public void create() throws Exception {
 
-        final Location entity = new Location();
+        final Restaurant entity = new Restaurant();
         entity.setId(ID);
         entity.setName("teste");
 
-        this.mvc.perform(post("/locations")
+        this.mvc.perform(post("/restaurants")
                 .accept(APPLICATION_JSON)
                 .contentType(APPLICATION_JSON)
                 .content(new ObjectMapper().writeValueAsString(entity)))
                 .andExpect(status().isCreated());
 
-        removeLocationTest();
+        this.service.delete(ID);
 
     }
 
     @Test
     public void remove() throws Exception {
 
-        createLocationTest();
+        final Restaurant entity = createMock();
+        this.service.save(entity);
 
-        this.mvc.perform(delete("/locations/{id}", ID)
+        this.mvc.perform(delete("/restaurants/{id}", ID)
                 .accept(APPLICATION_JSON)
                 .contentType(APPLICATION_JSON))
                 .andExpect(status().isGone());
 
     }
 
-    private void createLocationTest(){
-        final Location entity = new Location();
+    private Restaurant createMock(){
+
+        final Restaurant entity = new Restaurant();
         entity.setId(ID);
         entity.setName("teste");
 
-        this.service.save(entity);
-    }
+        return entity;
 
-    private void removeLocationTest(){
-        this.service.delete(ID);
     }
 
 }
