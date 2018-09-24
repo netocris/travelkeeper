@@ -1,5 +1,8 @@
 # elasticsearch
 spring:
+  devtools:
+    restart:
+      enabled: true
   data:
     elasticsearch:
       cluster-name: travelkeeper-cluster-dev
