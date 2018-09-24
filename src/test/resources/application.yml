@@ -5,11 +5,11 @@ spring:
   data:
     elasticsearch:
       cluster-name: travelkeeper-cluster-dev
-      cluster-nodes: 10.0.2.2:9300
+      cluster-nodes: localhost:9300
       sort-by: id
       index: travelkeeper
       type:
-        location: location
+        restaurant: restaurant
 
 # pagination
 pagination:

@@ -1,8 +1,8 @@
 package com.travelkeeper.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.travelkeeper.domain.Location;
-import com.travelkeeper.service.ILocationService;
+import com.travelkeeper.domain.Restaurant;
+import com.travelkeeper.service.IRestaurantService;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -24,14 +24,14 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @RunWith(SpringRunner.class)
-@WebMvcTest(LocationController.class)
-public class LocationControllerTest {
+@WebMvcTest(RestaurantController.class)
+public class RestaurantControllerTest {
 
     @Autowired
     private MockMvc mvc;
 
     @MockBean
-    private ILocationService service;
+    private IRestaurantService service;
 
     @Before
     public void setUp() {
@@ -44,15 +44,15 @@ public class LocationControllerTest {
     @Test
     public void getAll() throws Exception {
 
-        final Location entity = new Location();
+        final Restaurant entity = new Restaurant();
         entity.setId(1L);
         entity.setName("teste");
 
-        final Page<Location> page = new PageImpl<>(singletonList(entity));
+        final Page<Restaurant> page = new PageImpl<>(singletonList(entity));
 
         when(service.getAll()).thenReturn(page);
 
-        this.mvc.perform(get("/locations")
+        this.mvc.perform(get("/restaurants")
                 .accept(APPLICATION_JSON)
                 .contentType(APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -69,13 +69,13 @@ public class LocationControllerTest {
     @Test
     public void getById() throws Exception {
 
-        final Location entity = new Location();
+        final Restaurant entity = new Restaurant();
         entity.setId(1L);
         entity.setName("teste");
 
         when(service.getById(anyLong())).thenReturn(entity);
 
-        this.mvc.perform(get("/locations/{id}", 1L)
+        this.mvc.perform(get("/restaurants/{id}", 1L)
                 .accept(APPLICATION_JSON)
                 .contentType(APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -91,11 +91,11 @@ public class LocationControllerTest {
     @Test
     public void create() throws Exception {
 
-        final Location entity = new Location();
+        final Restaurant entity = new Restaurant();
         entity.setId(1L);
         entity.setName("teste");
 
-        this.mvc.perform(post("/locations")
+        this.mvc.perform(post("/restaurants")
                 .accept(APPLICATION_JSON)
                 .contentType(APPLICATION_JSON)
                 .content(new ObjectMapper().writeValueAsString(entity)))
@@ -112,7 +112,7 @@ public class LocationControllerTest {
         // mock service method request
         doNothing().when(this.service).delete(anyLong());
 
-        this.mvc.perform(delete("/locations/{id}", 1L)
+        this.mvc.perform(delete("/restaurants/{id}", 1L)
                 .accept(APPLICATION_JSON)
                 .contentType(APPLICATION_JSON))
                 .andExpect(status().isGone());
