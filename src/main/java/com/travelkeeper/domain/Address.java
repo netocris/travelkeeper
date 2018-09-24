@@ -16,7 +16,14 @@ public class Address extends BaseEntity {
     private String street;
 
     @NotNull
-    private String number;
+    private String city;
+
+    @NotNull
+    private String zipCode;
+
+    private String state;
+
+    private String country;
 
 }
 

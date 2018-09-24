@@ -22,7 +22,7 @@ import static java.util.Collections.emptyList;
 @Slf4j
 public class RestaurantService extends BaseService implements IRestaurantService {
 
-    private static final String TYPE = "dish";
+    private static final String TYPE = "restaurant";
 
     private IRestaurantRepository repository;
 
@@ -34,14 +34,14 @@ public class RestaurantService extends BaseService implements IRestaurantService
 
     @Override
     protected String getType() {
-        log.debug("get [Dish] type");
+        log.debug("get [Restaurant] type");
         return TYPE;
     }
 
     @Override
     public Page<Restaurant> getAll() {
 
-        log.debug("get all dishes");
+        log.debug("get all restaurants");
 
         final Page<Restaurant> page = this.repository.search(
                 buildSearchQuery(0, getPageSize(), getSortBy()));
@@ -57,7 +57,7 @@ public class RestaurantService extends BaseService implements IRestaurantService
     @Override
     public List<Long> getAllIds() {
 
-        log.debug("get all dish ids");
+        log.debug("get all restaurants ids");
 
         final Page<Restaurant> page = this.repository.search(
                 buildSearchQuery(0, getPageSize(), getSortBy()));
@@ -76,23 +76,23 @@ public class RestaurantService extends BaseService implements IRestaurantService
 
     @Override
     public Restaurant getById(Long id) {
-        log.debug("get dish with id " + id);
+        log.debug("get restaurant with id " + id);
         return this.repository.findById(id).orElse(null);
     }
 
     @Override
     public void save(Restaurant entity) {
-        log.debug("save dish");
+        log.debug("save restaurant");
         this.repository.save(entity);
     }
 
     @Override
     public void delete(Long id) {
 
-        log.debug("deleting dish with id " + id);
+        log.debug("deleting restaurant with id " + id);
 
         if(!this.repository.existsById(id)){
-            throw new ApplicationException("Dish with id " + id + " does not exists");
+            throw new ApplicationException("Restaurant with id " + id + " does not exists");
         }
 
         this.repository.deleteById(id);
