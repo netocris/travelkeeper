@@ -37,7 +37,7 @@ public class FirebaseConfig {
         try {
 
             final FileInputStream in = new FileInputStream(
-                    ResourceUtils.getFile(ResourceUtils.CLASSPATH_URL_PREFIX)
+                    ResourceUtils.getFile(ResourceUtils.CLASSPATH_URL_PREFIX) + "/"
                             + getProperty("firebase.credentials-path"));
             final FirebaseOptions options = new FirebaseOptions.Builder()
                     .setCredentials(GoogleCredentials.fromStream(in))
